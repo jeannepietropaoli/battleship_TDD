@@ -1,4 +1,5 @@
 import Square from './square';
+import Ship from './ship';
 
 const gameboardXMax = 10;
 
@@ -17,5 +18,38 @@ export default class Gameboard {
       }
       return board;
     })();
+  }
+
+  isPositionValid(position) {
+    return position.every(
+      (coordonates) =>
+      this.isInsideGameboardLimits(coordonates) && this.isWater(coordonates)
+    );
+  }
+
+  isInsideGameboardLimits(coordonates) {
+    const [x, y] = coordonates;
+    return x >= 0 && x < this.xMax && y >= 0 && y < this.yMax;
+  }
+
+  isWater(coordonates) {
+    const [x, y] = coordonates;
+    return this.board[x][y].shipReference === null;
+  }
+
+  turnWaterToShip(position, ship) {
+    position.forEach((coordonates) => {
+      const [x, y] = coordonates;
+      this.board[x][y].shipReference = ship;
+    });
+  }
+
+  placeShip(position) {
+    if (this.isPositionValid(position)) {
+      const ship = new Ship(position);
+      this.turnWaterToShip(position, ship);
+      return ship;
+    }
+    throw new Error('invalid coordonates');
   }
 }
