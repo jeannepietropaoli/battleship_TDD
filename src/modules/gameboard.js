@@ -1,5 +1,6 @@
 import Square from './square';
 import Ship from './ship';
+import FleetManager from './fleetManager';
 
 const gameboardXMax = 10;
 
@@ -18,12 +19,13 @@ export default class Gameboard {
       }
       return board;
     })();
+    this.fleetManager = new FleetManager();
   }
 
   isPositionValid(position) {
     return position.every(
       (coordonates) =>
-      this.isInsideGameboardLimits(coordonates) && this.isWater(coordonates)
+        this.isInsideGameboardLimits(coordonates) && this.isWater(coordonates)
     );
   }
 
@@ -48,6 +50,7 @@ export default class Gameboard {
     if (this.isPositionValid(position)) {
       const ship = new Ship(position);
       this.turnWaterToShip(position, ship);
+      this.fleetManager.addAShipToFleet(ship);
       return ship;
     }
     throw new Error('invalid coordonates');
