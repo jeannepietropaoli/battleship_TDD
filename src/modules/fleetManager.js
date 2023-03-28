@@ -16,4 +16,8 @@ export default class FleetManager {
     attackedShip.hit();
     if (attackedShip.isSunk()) this.removeShipFromFleet(attackedShip);
   }
+
+  empty() {
+    return this.ships.length === 0;
+  }
 }

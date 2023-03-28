@@ -89,7 +89,7 @@ test('receiveAttack method should return an error if target square has already b
 
 test('receiveAttack method should call manageAttackOnShip with correct argument if a ship is on the target square', () => {
   const gameboard = new Gameboard();
-  gameboard.placeShip([
+  const ship = gameboard.placeShip([
     [1, 1],
     [1, 2],
   ]);
@@ -97,6 +97,7 @@ test('receiveAttack method should call manageAttackOnShip with correct argument 
   gameboard.fleetManager.manageAttackOnShip = manageAttackOnShipMock;
   gameboard.receiveAttack([1, 1]);
   expect(manageAttackOnShipMock).toHaveBeenCalledTimes(1);
+  expect(manageAttackOnShipMock).toHaveBeenCalledWith(ship);
   gameboard.receiveAttack([2, 3]);
   expect(manageAttackOnShipMock).toHaveBeenCalledTimes(1);
 });
