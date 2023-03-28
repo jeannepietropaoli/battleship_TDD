@@ -1,5 +1,11 @@
 # battleship_TDD
 
+## Warning
+
+In progress / not functional for now
+
+New to TDD workflow means slower development at first to become faster in the end !
+
 ## Description
 
 Practice inside the Odin Project's Full Stack JavaScript course.
