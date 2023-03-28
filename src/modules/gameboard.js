@@ -55,4 +55,15 @@ export default class Gameboard {
     }
     throw new Error('invalid coordonates');
   }
+
+  receiveAttack(coordonates) {
+    const [x, y] = coordonates;
+    const targetSquare = this.board[x][y];
+    if (!targetSquare.attacked) {
+      targetSquare.attack();
+      if (!this.isWater(coordonates)) this.fleetManager.manageAttackOnShip();
+    } else {
+      throw new Error('Target square already attacked');
+    }
+  }
 }

@@ -69,3 +69,34 @@ test('placeShip method should call addAShipToFleet with correct argument if coor
   expect(addShipToFleetMock).toHaveBeenCalledTimes(1);
   expect(addShipToFleetMock).toHaveBeenCalledWith(ship);
 });
+
+test('receiveAttack method should call the attack method on the target square if it has not been attacked yet', () => {
+  const gameboard = new Gameboard();
+  const target = gameboard.board[1][1];
+  const attackMock = jest.fn();
+  target.attack = attackMock;
+  gameboard.receiveAttack([1, 1]);
+  expect(attackMock).toHaveBeenCalledTimes(1);
+});
+
+test('receiveAttack method should return an error if target square has already been attacked', () => {
+  const gameboard = new Gameboard();
+  gameboard.receiveAttack([1, 1]);
+  expect(() => gameboard.receiveAttack([1, 1])).toThrow(
+    'Target square already attacked'
+  );
+});
+
+test('receiveAttack method should call manageAttackOnShip with correct argument if a ship is on the target square', () => {
+  const gameboard = new Gameboard();
+  gameboard.placeShip([
+    [1, 1],
+    [1, 2],
+  ]);
+  const manageAttackOnShipMock = jest.fn();
+  gameboard.fleetManager.manageAttackOnShip = manageAttackOnShipMock;
+  gameboard.receiveAttack([1, 1]);
+  expect(manageAttackOnShipMock).toHaveBeenCalledTimes(1);
+  gameboard.receiveAttack([2, 3]);
+  expect(manageAttackOnShipMock).toHaveBeenCalledTimes(1);
+});

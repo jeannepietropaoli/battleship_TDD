@@ -6,4 +6,14 @@ export default class FleetManager {
   addAShipToFleet(newShip) {
     this.ships.push(newShip);
   }
+
+  removeShipFromFleet(ship) {
+    const index = this.ships.indexOf(ship);
+    this.ships.splice(index, 1);
+  }
+
+  manageAttackOnShip(attackedShip) {
+    attackedShip.hit();
+    if (attackedShip.isSunk()) this.removeShipFromFleet(attackedShip);
+  }
 }
