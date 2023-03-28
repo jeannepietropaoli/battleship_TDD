@@ -1,5 +1,6 @@
 export default class Player {
-  constructor(gameboard, ennemyGameboard) {
+  constructor(name, gameboard, ennemyGameboard) {
+    this.name = name;
     this.gameboard = gameboard;
     this.ennemyGameboard = ennemyGameboard;
     this.turn = false;
