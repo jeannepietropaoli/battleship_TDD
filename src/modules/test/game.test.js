@@ -12,11 +12,13 @@ test('instantiating a new game should call the Player class twice with correct a
   expect(Player).toHaveBeenCalledTimes(2);
   expect(Player).toHaveBeenCalledWith(
     game.gameboardPlayer1,
-    game.gameboardPlayer2
+    game.gameboardPlayer2,
+    'Player 1'
   );
   expect(Player).toHaveBeenCalledWith(
     game.gameboardPlayer2,
-    game.gameboardPlayer1
+    game.gameboardPlayer1,
+    'Player 2'
   );
 });
 

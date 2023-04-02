@@ -61,10 +61,12 @@ export default class Gameboard {
     const targetSquare = this.board[x][y];
     if (!targetSquare.attacked) {
       targetSquare.attack();
-      if (!this.isWater(coordonates))
+      if (!this.isWater(coordonates)) {
         this.fleetManager.manageAttackOnShip(targetSquare.shipReference);
-    } else {
-      throw new Error('Target square already attacked');
+        return 'hit';
+      }
+      return 'missed';
     }
+    return null;
   }
 }

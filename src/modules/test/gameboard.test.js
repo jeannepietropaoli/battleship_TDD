@@ -79,12 +79,10 @@ test('receiveAttack method should call the attack method on the target square if
   expect(attackMock).toHaveBeenCalledTimes(1);
 });
 
-test('receiveAttack method should return an error if target square has already been attacked', () => {
+test('receiveAttack method should return null if target square has already been attacked', () => {
   const gameboard = new Gameboard();
   gameboard.receiveAttack([1, 1]);
-  expect(() => gameboard.receiveAttack([1, 1])).toThrow(
-    'Target square already attacked'
-  );
+  expect(gameboard.receiveAttack([1, 1])).toBeNull();
 });
 
 test('receiveAttack method should call manageAttackOnShip with correct argument if a ship is on the target square', () => {

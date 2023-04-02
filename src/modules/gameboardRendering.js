@@ -36,16 +36,35 @@ export default class GameboardRenderer {
     return Array.from(this.DOMGrid.querySelectorAll('.square'));
   }
 
-  readyToReceiveAttack() {
+  displayShips() {
+    this.gameboard.fleetManager.ships.forEach((ship) => {
+      ship.position.forEach((coordonates) => {
+        this.DOMGrid.querySelector(
+          `[data-position='${JSON.stringify(coordonates)}']`
+        ).style.backgroundColor = 'red';
+      });
+    });
+  }
+
+  chooseSquareToAttack() {
     return new Promise((resolve) => {
       this.DOMGrid.addEventListener(
         'click',
         (event) => {
-          const target = JSON.parse(event.target.getAttribute('data-position'));
+          const { target } = event;
           resolve(target);
         },
         { once: true }
       );
     });
+  }
+
+  displayMissedSquare(square) {
+    square.style.backgroundColor = 'grey';
+  }
+
+  displayHitSquare(square) {
+    square.style.backgroundColor = 'lightgrey';
+    square.classList.add('hit');
   }
 }

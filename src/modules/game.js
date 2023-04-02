@@ -9,12 +9,22 @@ export default class Game {
     this.gameboardPlayer2 = new Gameboard();
 
     // create both players
-    this.player1 = new Player(this.gameboardPlayer1, this.gameboardPlayer2);
-    this.player2 = new Player(this.gameboardPlayer2, this.gameboardPlayer1);
+    this.player1 = new Player(
+      this.gameboardPlayer1,
+      this.gameboardPlayer2,
+      'Player 1'
+    );
+    this.player2 = new Player(
+      this.gameboardPlayer2,
+      this.gameboardPlayer1,
+      'Player 2'
+    );
 
     // create both gameboard renderers
     this.rendererPlayer1 = new GameboardRenderer(this.gameboardPlayer1);
     this.rendererPlayer2 = new GameboardRenderer(this.gameboardPlayer2);
+    this.player1.gameboardRenderer = this.rendererPlayer1;
+    this.player2.gameboardRenderer = this.rendererPlayer2;
 
     // create both DOM grids
     this.rendererPlayer1.displayGrid();
@@ -46,26 +56,61 @@ export default class Game {
 
     // choose first player
     this.player1.turn = true;
+
+    // display ships on both grids  (for testing purposes)
+    this.rendererPlayer1.displayShips();
+    this.rendererPlayer2.displayShips();
+  }
+
+  switchPlayersTurn(currentPlayer, ennemyPlayer) {
+    currentPlayer.turn = false;
+    ennemyPlayer.turn = true;
+  }
+
+  identifyWinner() {
+    return this.gameboardPlayer1.fleetManager.allShipsSunk()
+      ? this.player2
+      : this.player1;
+  }
+
+  announceWinner() {
+    const winner = this.identifyWinner();
+    alert(`The winner is ${winner.name}!`);
+  }
+
+  bothPlayersHaveShips() {
+    return (
+      !this.gameboardPlayer1.fleetManager.allShipsSunk() &&
+      !this.gameboardPlayer2.fleetManager.allShipsSunk()
+    );
+  }
+
+  setPlayersRoles() {
+    return this.player1.turn
+      ? [this.player1, this.player2]
+      : [this.player2, this.player1];
+  }
+
+  displaySquareResult(ennemyPlayer, targetSquareElement, hitSquare) {
+    if (hitSquare === 'hit') {
+      ennemyPlayer.gameboardRenderer.displayHitSquare(targetSquareElement);
+    } else if (hitSquare === 'missed') {
+      ennemyPlayer.gameboardRenderer.displayMissedSquare(targetSquareElement);
+    }
   }
 
   async start() {
-    let target;
-    if (this.player1.turn) {
-      target = await this.rendererPlayer1.readyToReceiveAttack();
-      this.gameboardPlayer2.receiveAttack(target);
-      this.player1.turn = false;
-      this.player2.turn = true;
-    } else {
-      target = await this.rendererPlayer2.readyToReceiveAttack();
-      this.gameboardPlayer1.receiveAttack(target);
-      this.player2.turn = false;
-      this.player1.turn = true;
+    while (this.bothPlayersHaveShips()) {
+      const [currentPlayer, ennemyPlayer] = this.setPlayersRoles();
+      const targetSquareElement =
+        await ennemyPlayer.gameboardRenderer.chooseSquareToAttack();
+      const hitSquare = currentPlayer.ennemyGameboard.receiveAttack(
+        JSON.parse(targetSquareElement.getAttribute('data-position'))
+      );
+      this.displaySquareResult(ennemyPlayer, targetSquareElement, hitSquare);
+      if (hitSquare === 'missed')
+        this.switchPlayersTurn(currentPlayer, ennemyPlayer);
     }
+    this.announceWinner();
   }
 }
-
-// player 1 choose a target
-// gameboard2 receive attack avec target choisie
-// si target pas deja ciblé, marquer sur le gameboard2
-// sinon rejouer
-// changer tour joeur

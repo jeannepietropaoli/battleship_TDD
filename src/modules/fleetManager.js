@@ -17,7 +17,7 @@ export default class FleetManager {
     if (attackedShip.isSunk()) this.removeShipFromFleet(attackedShip);
   }
 
-  empty() {
+  allShipsSunk() {
     return this.ships.length === 0;
   }
 }
