@@ -36,6 +36,7 @@ export default class GameboardRenderer {
     return Array.from(this.DOMGrid.querySelectorAll('.square'));
   }
 
+  // for testing purposes
   displayShips() {
     this.gameboard.fleetManager.ships.forEach((ship) => {
       ship.position.forEach((coordonates) => {
@@ -46,7 +47,7 @@ export default class GameboardRenderer {
     });
   }
 
-  chooseSquareToAttack() {
+  clickOnSquare() {
     return new Promise((resolve) => {
       this.DOMGrid.addEventListener(
         'click',

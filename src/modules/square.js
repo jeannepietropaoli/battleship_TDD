@@ -10,8 +10,4 @@ export default class Square {
   attack() {
     this.attacked = true;
   }
-
-  isShip() {
-    return this.shipReference !== null;
-  }
 }

@@ -8,27 +8,25 @@ export default class Game {
     this.gameboardPlayer1 = new Gameboard();
     this.gameboardPlayer2 = new Gameboard();
 
-    // create both players
-    this.player1 = new Player(
-      this.gameboardPlayer1,
-      this.gameboardPlayer2,
-      'Player 1'
-    );
-    this.player2 = new Player(
-      this.gameboardPlayer2,
-      this.gameboardPlayer1,
-      'Player 2'
-    );
+    // create both players and set player1 as first player
+    this.player1 = new Player(this.gameboardPlayer1, 'Player 1');
+    this.player2 = new Player(this.gameboardPlayer2, 'Player 2');
+    this.player1.turn = true;
+
+    this.player1.ennemy = this.player2;
+    this.player2.ennemy = this.player1;
 
     // create both gameboard renderers
-    this.rendererPlayer1 = new GameboardRenderer(this.gameboardPlayer1);
-    this.rendererPlayer2 = new GameboardRenderer(this.gameboardPlayer2);
-    this.player1.gameboardRenderer = this.rendererPlayer1;
-    this.player2.gameboardRenderer = this.rendererPlayer2;
+    this.player1.gameboardRenderer = new GameboardRenderer(
+      this.gameboardPlayer1
+    );
+    this.player2.gameboardRenderer = new GameboardRenderer(
+      this.gameboardPlayer2
+    );
 
     // create both DOM grids
-    this.rendererPlayer1.displayGrid();
-    this.rendererPlayer2.displayGrid();
+    this.player1.gameboardRenderer.displayGrid();
+    this.player2.gameboardRenderer.displayGrid();
 
     // populate player1 Gameboard with predetermined coordinates
     this.gameboardPlayer1.placeShip([
@@ -54,12 +52,9 @@ export default class Game {
     ]);
     this.gameboardPlayer2.placeShip([[7, 7]]);
 
-    // choose first player
-    this.player1.turn = true;
-
     // display ships on both grids  (for testing purposes)
-    this.rendererPlayer1.displayShips();
-    this.rendererPlayer2.displayShips();
+    this.player1.gameboardRenderer.displayShips();
+    this.player2.gameboardRenderer.displayShips();
   }
 
   switchPlayersTurn(currentPlayer, ennemyPlayer) {
@@ -102,8 +97,7 @@ export default class Game {
   async start() {
     while (this.bothPlayersHaveShips()) {
       const [currentPlayer, ennemyPlayer] = this.setPlayersRoles();
-      const targetSquareElement =
-        await ennemyPlayer.gameboardRenderer.chooseSquareToAttack();
+      const targetSquareElement = await currentPlayer.chooseTarget();
       const hitSquare = currentPlayer.ennemyGameboard.receiveAttack(
         JSON.parse(targetSquareElement.getAttribute('data-position'))
       );

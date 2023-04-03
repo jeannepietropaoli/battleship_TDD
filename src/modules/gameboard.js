@@ -67,6 +67,6 @@ export default class Gameboard {
       }
       return 'missed';
     }
-    return null;
+    return 'already attacked square';
   }
 }

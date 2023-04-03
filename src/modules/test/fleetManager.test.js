@@ -39,3 +39,10 @@ test('manageAttackOnShip should call the removeShipFromFleet method if the passe
   fleetManager.manageAttackOnShip(ship);
   expect(removeShipFromFleetMock).toHaveBeenCalledTimes(1);
 });
+
+test('allShipsSunk method should return true if all ships in the fleet are sunk', () => {
+  const fleetManager = new FleetManager();
+  expect(fleetManager.allShipsSunk()).toBe(true);
+  fleetManager.addAShipToFleet(new Ship([1, 1]));
+  expect(fleetManager.allShipsSunk()).toBe(false);
+});
