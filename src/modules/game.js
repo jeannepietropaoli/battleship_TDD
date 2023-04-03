@@ -17,12 +17,14 @@ export default class Game {
     this.player2.ennemy = this.player1;
 
     // create both gameboard renderers
-    this.player1.gameboardRenderer = new GameboardRenderer(
+    this.gameboardRendererPlayer1 = new GameboardRenderer(
       this.gameboardPlayer1
     );
-    this.player2.gameboardRenderer = new GameboardRenderer(
+    this.gameboardRendererPlayer2 = new GameboardRenderer(
       this.gameboardPlayer2
     );
+    this.player1.gameboardRenderer = this.gameboardRendererPlayer1;
+    this.player2.gameboardRenderer = this.gameboardRendererPlayer2;
 
     // create both DOM grids
     this.player1.gameboardRenderer.displayGrid();
@@ -98,7 +100,7 @@ export default class Game {
     while (this.bothPlayersHaveShips()) {
       const [currentPlayer, ennemyPlayer] = this.setPlayersRoles();
       const targetSquareElement = await currentPlayer.chooseTarget();
-      const hitSquare = currentPlayer.ennemyGameboard.receiveAttack(
+      const hitSquare = ennemyPlayer.gameboard.receiveAttack(
         JSON.parse(targetSquareElement.getAttribute('data-position'))
       );
       this.displaySquareResult(ennemyPlayer, targetSquareElement, hitSquare);

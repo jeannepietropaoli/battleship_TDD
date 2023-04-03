@@ -1,7 +1,8 @@
 import '../styles/main.css';
 import Game from './game';
+import GameAgainstComputer from './gameAgainstComputer';
 
-const game = new Game();
+const game = new GameAgainstComputer();
 game.start();
 
 // fleetManager

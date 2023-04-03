@@ -2,7 +2,7 @@ import Gameboard from '../gameboard';
 import Player from '../player';
 import Game from '../game';
 
-test('player class should instantiate a new player with its gameboard, its name and its turn set to false', () => {
+test('player class should instantiate a new player with its gameboard and its name and set its turn to false by default', () => {
   const gameboard1 = new Gameboard();
   const player1 = new Player(gameboard1, 'player 1');
   expect(player1.gameboard).toBe(gameboard1);

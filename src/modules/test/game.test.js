@@ -29,10 +29,12 @@ test('instantiating a new game should set each player s ennemy', () => {
   expect(game.player2.ennemy).toBe(game.player1);
 });
 
-test('instantiating a new game should call the GameboardRenderer class with correct args twice to set each player s gameboard renderer', () => {
+test('instantiating a new game should call the GameboardRenderer class with correct args twice and set each player s gameboard renderer', () => {
   expect(GameboardRenderer).toHaveBeenCalledTimes(2);
   expect(GameboardRenderer).toHaveBeenCalledWith(game.gameboardPlayer1);
   expect(GameboardRenderer).toHaveBeenCalledWith(game.gameboardPlayer2);
+  expect(game.player1.gameboardRenderer).toBeInstanceOf(GameboardRenderer);
+  expect(game.player2.gameboardRenderer).toBeInstanceOf(GameboardRenderer);
 });
 
 test('instantiating a new game should call the displayGrid method on each player s gameboard renderer', () => {
