@@ -6,7 +6,7 @@ export default class Player {
   }
 
   async chooseTarget() {
-    const square = await this.ennemy.gameboardRenderer.clickOnSquare();
+    const square = await this.ennemy.gameboard.renderer.clickOnSquare();
     return square;
   }
 }

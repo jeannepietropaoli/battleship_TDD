@@ -1,5 +1,4 @@
 import Square from './square';
-import Ship from './ship';
 import FleetManager from './fleetManager';
 
 const gameboardXMax = 10;
@@ -46,14 +45,27 @@ export default class Gameboard {
     });
   }
 
-  placeShip(position) {
+  placeShip(ship, start) {
+    const position = ship.calculatePosition(start);
     if (this.isPositionValid(position)) {
-      const ship = new Ship(position);
-      this.turnWaterToShip(position, ship);
-      this.fleetManager.addAShipToFleet(ship);
-      return ship;
+      ship.setPosition(position);
+      this.turnWaterToShip(ship.position, ship);
     }
-    throw new Error('invalid coordonates');
+    return ship;
+  }
+
+  placeShipsRandomly() {
+    const { ships } = this.fleetManager;
+    ships.forEach((ship) => {
+      while (!ship.isPlaced()) {
+        const start = [
+          Math.floor(Math.random() * this.xMax),
+          Math.floor(Math.random() * this.yMax),
+        ];
+        ship.setOrientationRandomly();
+        this.placeShip(ship, start);
+      }
+    });
   }
 
   receiveAttack(coordonates) {
@@ -62,7 +74,8 @@ export default class Gameboard {
     if (!targetSquare.attacked) {
       targetSquare.attack();
       if (!this.isWater(coordonates)) {
-        this.fleetManager.manageAttackOnShip(targetSquare.shipReference);
+        const ship = targetSquare.shipReference;
+        ship.hit();
         return 'hit';
       }
       return 'missed';

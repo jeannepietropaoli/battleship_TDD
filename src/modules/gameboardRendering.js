@@ -47,6 +47,14 @@ export default class GameboardRenderer {
     });
   }
 
+  displayShip(ship) {
+    ship.position.forEach((coordonates) => {
+      this.DOMGrid.querySelector(
+        `[data-position='${JSON.stringify(coordonates)}']`
+      ).style.backgroundColor = 'red';
+    });
+  }
+
   clickOnSquare() {
     return new Promise((resolve) => {
       this.DOMGrid.addEventListener(

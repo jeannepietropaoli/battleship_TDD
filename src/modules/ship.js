@@ -1,9 +1,10 @@
 export default class Ship {
-  constructor(position) {
+  constructor(length, orientation, name) {
     this.hits = 0;
-    this.sunk = false;
-    this.position = position; // array of coordonates pair representing the ship on the gameboard
-    this.length = position.length;
+    this.position = []; // array of coordonates pair representing the ship on the gameboard
+    this.length = length;
+    this.orientation = orientation;
+    this.name = name;
   }
 
   hit() {
@@ -11,7 +12,34 @@ export default class Ship {
   }
 
   isSunk() {
-    if (this.hits >= this.length) this.sunk = true;
-    return this.sunk;
+    return this.hits >= this.length;
+  }
+
+  isPlaced() {
+    return this.position.length > 0;
+  }
+
+  calculatePosition(start) {
+    const [x, y] = start;
+    const position = [];
+    for (let i = 0; i < this.length; i++) {
+      if (this.orientation === 'horizontal') {
+        position.push([x + i, y]);
+      } else {
+        position.push([x, y + i]);
+      }
+    }
+    return position;
+  }
+
+  setPosition(position) {
+    this.position = position;
+  }
+
+  setOrientationRandomly() {
+    const randomBinary = Math.round(Math.random());
+    randomBinary === 0
+      ? (this.orientation = 'horizontal')
+      : (this.orientation = 'vertical');
   }
 }

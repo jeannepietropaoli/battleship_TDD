@@ -1,13 +1,14 @@
 import '../styles/main.css';
-import Game from './game';
-import GameAgainstComputer from './gameAgainstComputer';
+import GameAgainstComputer from './game';
+
+const startButton = document.querySelector('#start-button');
 
 const game = new GameAgainstComputer();
-game.start();
 
-// fleetManager
-// square
-// ship
-// player
-// gameboard Renderer
-// gameboard
+startButton.addEventListener(
+  'click',
+  () => {
+    game.start();
+  },
+  { once: true }
+);
