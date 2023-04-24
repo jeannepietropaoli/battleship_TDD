@@ -1,8 +1,10 @@
 # battleship_TDD
 
-## Warning
+## Live version
 
-In progress / not functional for now
+https://jeannepietropaoli.github.io/battleship_TDD
+
+## Warning
 
 New to TDD workflow means slower development at first to become faster in the end !
 
@@ -14,7 +16,7 @@ To learn more about The Odin Project : https://www.theodinproject.com/
 
 To learn more about the specific project : https://www.theodinproject.com/lessons/node-path-javascript-battleship
 
-The goal of this project is to implement the classic game ‘Battleship’ with TDD workflow.
+The goal of this project is to implement the classic game ‘Battleship’ while using TDD workflow for the first time.
 
 ## Skills to practice
 
