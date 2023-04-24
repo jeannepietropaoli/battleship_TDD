@@ -5,6 +5,7 @@ export default class Ship {
     this.length = length;
     this.orientation = orientation;
     this.name = name;
+    this.color = '#344B07';
   }
 
   hit() {

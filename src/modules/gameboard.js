@@ -54,6 +54,17 @@ export default class Gameboard {
     return ship;
   }
 
+  removeShips() {
+    this.fleetManager.ships.forEach((ship) => {
+      ship.position = [];
+    });
+    this.board.forEach((row) => {
+      row.forEach((square) => {
+        square.shipReference = null;
+      });
+    });
+  }
+
   placeShipsRandomly() {
     const { ships } = this.fleetManager;
     ships.forEach((ship) => {

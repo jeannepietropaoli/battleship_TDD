@@ -1,4 +1,5 @@
 import { dragAndDropEvents } from './dragAndDrop';
+import instructions from './instructions';
 
 function getHeightGameboardSquareElement() {
   const gameboardSquare = document.querySelector('.square');
@@ -22,8 +23,8 @@ function setShipElementAttributes(ship, shipElement) {
   shipElement.id = ship.name;
 }
 
-function setShipElementStyle(shipElement) {
-  shipElement.style.backgroundColor = 'red';
+function setShipElementStyle(shipElement, ship) {
+  shipElement.style.backgroundColor = ship.color;
 }
 
 function triggerShipElementDragEvents(shipElement) {
@@ -42,10 +43,10 @@ function triggerShipElementFlip(ship, shipElement) {
 
 function createDraggableShipElement(ship) {
   const draggable = document.createElement('div');
-  document.querySelector('body').appendChild(draggable);
+  document.querySelector('#ships-container').appendChild(draggable);
   setShipElementAttributes(ship, draggable);
   setShipElementSize(ship, draggable);
-  setShipElementStyle(draggable);
+  setShipElementStyle(draggable, ship);
   triggerShipElementDragEvents(draggable);
   triggerShipElementFlip(ship, draggable);
   return draggable;
@@ -79,6 +80,8 @@ function dropHandler(gameboard, player) {
     }
     if (gameboard.fleetManager.allShipsPlaced()) {
       enableStartButton();
+      instructions.update('startGame');
+      player.ennemy.gameboard.renderer.unblur();
     }
   };
 }
@@ -99,4 +102,5 @@ export default function activateDragAndDrop(gameboard, player) {
   getdropTargets(player).forEach((dropTarget) => {
     triggerTargetDrop(dropTarget, gameboard, player);
   });
+  instructions.update('placeShips');
 }

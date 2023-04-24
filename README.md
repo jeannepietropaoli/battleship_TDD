@@ -33,11 +33,20 @@ The goal of this project is to implement the classic game ‘Battleship’ with 
 
 ## Features
 
+- Player VS computer game
+- Smart AI that plays legal moves
+- Drag and drop feature for placing the ships on the gameboard
+
 ## Test
 
 - Launch Jest in the terminal and see if the tests pass
 
 ## Improvements
+
+- Polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’
+- Create a 2-player option (no computer)
+- Improve UI : - display ships with ships logos - display hits in a more dynamic way
+- Add a 'place your ships randomly' for the player
 
 Extend TDD to :
 

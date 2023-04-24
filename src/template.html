@@ -4,9 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>BattleShip Game</title>
   </head>
   <body>
-    <button disabled id="start-button">start</button>
+    <div id="title">
+      <h1>BATTLESHIP GAME</h1>
+      <img id="title-logo" src="./assets/ship.png" alt="ship logo" />
+    </div>
+    <div id="gameboards">
+      <button disabled id="start-button">start</button>
+    </div>
+    <div id="instructions"></div>
+    <div id="ships-container"></div>
+    <button id="reset">Reset</button>
   </body>
 </html>

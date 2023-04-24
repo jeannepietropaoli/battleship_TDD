@@ -26,29 +26,22 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
-      {
-        test: /\.(png|svg|jpg|gif|jpeg)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+      { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
     ],
   },
   plugins: [
     new HtmlWepackPlugin({
-      title: 'Battleship - Practice TDD',
-      filename: 'index.html',
       template: 'src/template.html',
     }),
   ],

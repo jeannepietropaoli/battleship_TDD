@@ -3,6 +3,7 @@ import GameboardRenderer from './gameboardRendering';
 import Player from './player';
 import Computer from './computer';
 import activateDragAndDrop from './placing';
+import instructions from './instructions';
 
 export default class GameAgainstComputer {
   constructor() {
@@ -29,13 +30,19 @@ export default class GameAgainstComputer {
     // create both DOM grids
     this.gameboardPlayer1.renderer.displayGrid();
     this.gameboardPlayer2.renderer.displayGrid();
+    this.gameboardPlayer1.renderer.setDataPlayerAttribute(this.player1);
+    this.gameboardPlayer2.renderer.setDataPlayerAttribute(this.player2);
 
     // place ships randomly on computer gameboard
     this.gameboardPlayer2.placeShipsRandomly();
 
-    // display ships on both grids  (for testing purposes)
-    this.gameboardPlayer2.renderer.displayShips();
+    this.startBtn = document.querySelector('#start-button');
+    this.gameboardPlayer2.renderer.appendElement(this.startBtn);
 
+    // blur player2 gameboard
+    this.gameboardPlayer2.renderer.blur();
+
+    // activate drag and drop on player1 gameboard
     activateDragAndDrop(this.gameboardPlayer1, this.player1);
   }
 
@@ -52,7 +59,9 @@ export default class GameAgainstComputer {
 
   announceWinner() {
     const winner = this.identifyWinner();
-    alert(`The winner is ${winner.name}!`);
+    winner instanceof Computer
+      ? instructions.update('computerWins')
+      : instructions.update('playerWins');
   }
 
   bothPlayersHaveShips() {
@@ -76,9 +85,16 @@ export default class GameAgainstComputer {
     }
   }
 
+  setTurnInstructions(currentPlayer) {
+    currentPlayer.name === 'Player 1'
+      ? instructions.update('playerTurn')
+      : instructions.update('computerTurn');
+  }
+
   async start() {
     while (this.bothPlayersHaveShips()) {
       const [currentPlayer, ennemyPlayer] = this.setPlayersRoles();
+      this.setTurnInstructions(currentPlayer);
       const targetSquareElement = await currentPlayer.chooseTarget();
       const hitSquare = ennemyPlayer.gameboard.receiveAttack(
         JSON.parse(targetSquareElement.getAttribute('data-position'))

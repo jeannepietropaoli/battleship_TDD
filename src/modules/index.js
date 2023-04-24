@@ -1,14 +1,20 @@
 import '../styles/main.css';
 import GameAgainstComputer from './game';
 
-const startButton = document.querySelector('#start-button');
+const resetBtn = document.querySelector('#reset');
 
 const game = new GameAgainstComputer();
 
-startButton.addEventListener(
+resetBtn.addEventListener('click', () => {
+  window.location.reload();
+});
+
+game.startBtn.addEventListener(
   'click',
-  () => {
+  (e) => {
+    e.stopPropagation();
     game.start();
-  },
-  { once: true }
+    game.startBtn.remove();
+  }
+  // { once: true }
 );

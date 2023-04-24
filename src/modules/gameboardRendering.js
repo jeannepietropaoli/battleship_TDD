@@ -22,8 +22,8 @@ export default class GameboardRenderer {
   }
 
   displayGrid() {
-    document.querySelector('body').appendChild(this.DOMGrid);
-    this.DOMGrid.classList = 'grid';
+    document.querySelector('#gameboards').appendChild(this.DOMGrid);
+    this.DOMGrid.classList = 'gameboard';
     for (let y = 0; y < this.yMax; y++) {
       const column = this.displayColumn(y);
       for (let x = 0; x < this.xMax; x++) {
@@ -42,7 +42,7 @@ export default class GameboardRenderer {
       ship.position.forEach((coordonates) => {
         this.DOMGrid.querySelector(
           `[data-position='${JSON.stringify(coordonates)}']`
-        ).style.backgroundColor = 'red';
+        ).style.backgroundColor = ship.color;
       });
     });
   }
@@ -51,7 +51,13 @@ export default class GameboardRenderer {
     ship.position.forEach((coordonates) => {
       this.DOMGrid.querySelector(
         `[data-position='${JSON.stringify(coordonates)}']`
-      ).style.backgroundColor = 'red';
+      ).style.backgroundColor = ship.color;
+    });
+  }
+
+  removeShips() {
+    this.squares.forEach((square) => {
+      square.style.backgroundColor = 'white';
     });
   }
 
@@ -75,5 +81,25 @@ export default class GameboardRenderer {
   displayHitSquare(square) {
     square.style.backgroundColor = 'lightgrey';
     square.classList.add('hit');
+  }
+
+  setDataPlayerAttribute(player) {
+    player.name === 'Computer'
+      ? (this.DOMGrid.id = 'computer-gameboard')
+      : (this.DOMGrid.id = 'player-gameboard');
+  }
+
+  blur() {
+    this.DOMGrid.style.opacity = '0.3';
+    // this.DOMGrid.style.filter = 'blur(1px)';
+  }
+
+  unblur() {
+    this.DOMGrid.style.opacity = '1';
+    // this.DOMGrid.style.filter = 'blur(0px)';
+  }
+
+  appendElement(element) {
+    this.DOMGrid.appendChild(element);
   }
 }

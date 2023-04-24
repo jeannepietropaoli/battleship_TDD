@@ -4,6 +4,7 @@ test('Ship class correctly instantiate a new instance', () => {
   const ship = new Ship(2, 'horizontal', 'ship1');
   expect(ship).toBeInstanceOf(Ship);
   expect(ship).toEqual({
+    color: '#344B07',
     hits: 0,
     position: [],
     length: 2,
